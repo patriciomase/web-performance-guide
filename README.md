@@ -21,7 +21,7 @@ A client has complained that their site is too slow. In particular, they have id
  - **Ways to fix:**
 	 - manually reduce the size of the assets (ugh).
 	 - Resize uploaded content in the backend before storing it. (Or make a copy with the right dimensions keeping the original one) This do not fix for existent content but will fix the issue for future elements. We could run a script to execute the same process for the historical data we already have. We can also consider to create several sizes at this stage so we can cover different devices in a better way and also have other sizes available like for example for thumbnails.
-	 - Another alternative approach would be to resize at request time. Use query params to query for an specific size. We'd need to have a service in place to do the transformation on the fly, cache the resized asset and return. Third party services like cloudinary and could be a relatively easy workaround.
+	 - Another alternative approach would be to resize at request time. Use query params to query for an specific size. We'd need to have a service in place to do the transformation on the fly, cache the resized asset and return. Third party services like `Cloudinary` work in this way and could be a relatively easy workaround to implement without commiting to an excesive development effort.
  - **Additional improvements:**
 	 - Check the file format (mostly for images). Try to use webp.
 
