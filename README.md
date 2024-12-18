@@ -12,7 +12,7 @@ A client has complained that their site is too slow. In particular, they have id
  2. Navigate the production site (if productive, if not whatever env the client is seeing) trying to reproduce. After finding the issue happening live it'd be beneficial to try to reproduce it locally if possible.
  3. Now having a better understanding we should be able to scope and diagnose (making use of the browser's network tab mainly) to know if the issue is mainly located in frontend or backend.
 
-### Hypothetical case 1: Issues are in the frontend side:
+## Hypothetical case 1: Issues are in the frontend side:
  After taking a look to the affected pages the following issues have been observed:
  
  #### Symptom: Images take too long to show up.  
@@ -53,7 +53,7 @@ A client has complained that their site is too slow. In particular, they have id
 
 ---
 
-### Hypothetical case 2: Issues are in the backend side:
+## Hypothetical case 2: Issues are in the backend side:
 #### Symptom: The whole page or a block of content is noticeable slow to load or after sending a form with data it takes long time to show some response to the user.
 In the browser's network tab we can see how some XHR requests with data needed to draw the page content are taking more than expected. 
 - **Possible cause: database query underperforming** Too many joins, too much historical data, lack of indexes or db instances struggling to write and read at the same time could be the most common causes.
@@ -75,7 +75,7 @@ In the browser's network tab we can see how some XHR requests with data needed t
 
 ---
 
-### Hypothetical case 3: Issues that affect both frontend and backend:
+## Hypothetical case 3: Issues that affect both frontend and backend:
 #### Symptom: All page assets seem to be slow to load. The issue is more noticeable when accessing the page from far away locations.
  -  **Possible cause: Lack of caching and CDN usage:** Assets like JS, CSS, and fonts are being delivered without any proper caching or CDN. This issue likely occurs because no caching rules were set or no CDN is present at all, the browser is downloading assets from server on every visit which increases load times and puts extra stress on the server. No cloud storage being used to store assets on each build.
  - **How do we confirm:**
