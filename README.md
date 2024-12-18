@@ -36,6 +36,7 @@ A client has complained that their site is too slow. In particular, they have id
 - **How to fix:**
 	- Add `defer` or `async` to the script tag in the html.
 	- Consider loading the script dynamically (Inject the `<script` tag with js) when it is needed.
+   	- Consider using a third party service to load scripts like GA (Google Analytics).
 
 ---
 
