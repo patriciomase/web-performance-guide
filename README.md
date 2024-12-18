@@ -15,7 +15,7 @@ A client has complained that their site is too slow. In particular, they have id
 ## Hypothetical case 1: Issues are in the frontend side:
  After taking a look to the affected pages the following issues have been observed:
  
- #### Symptom: Images take too long to show up.  
+ #### Symptom: Images take too long to show up. The three pages shared by the client have something in common, they use a hero image component.
  - **Possible cause: Served assets size.** Images (and could be videos, fonts, etc.). They  are simply too big. This issue likely occurs when non-technical users upload content to cms platforms or other ways to inject content in automated ways. The browser scales down the image to show it in the right size defined by design, but the file transfer takes extra time which impacts the user experience.
  - **How to confirm the issue:** Inspect the elements in the browser. Compare the rendered size vs the original size. Loot at the element in the network tab, take a look at the file weight.
  - **Ways to fix:**
@@ -40,7 +40,7 @@ A client has complained that their site is too slow. In particular, they have id
 
 ---
 
-#### Symptom: Page feels slow and unresponsive
+#### Symptom: Pages feel slow and unresponsive after executing certain action they have in common.
 - **Possible cause: Rendering issues, unnecessary processing.** If the page feels unresponsive after loading or after executing certain actions it could be the case we entered in a rerender loop. Another good indicator of this could be elements slightly flashing in the webpage.
 - **How do we confirm**
 	- Use the React Profiler (if using React) to identify components that are re-rendering too often.
@@ -61,13 +61,13 @@ In the browser's network tab we can see how some XHR requests with data needed t
 - **What do we do to fix:** We would fix this issue in different ways depending on the issue itself.
 	- If the problematic query can be optimized just do it. Try to avoid too many joins or subqueries. Analize the possibility of splitting the query and do a second iteration of simpler queries (for example bringing resources by id) to get the missing data.
 	- If we see lot of filtering in the query maybe it is time to analyze and propose to have a different service like `elasticsearch` in place to do fulfill that role. Elasticsearch is much more efficient to handle large sets of data and complex filters, freeing up our main database from heavy search queries.
-	- If the slowliness is not constant, it appears at certain time during the day check if it matches with user traffic spikes or with times when we run automatic processes that stress the db like a data ingestion. If the DB instances are struggling at those moments consider to scale them up, split the work in lighter chunks or schedule stress processes during low traffic volume hours.
+	- If the slowness is not constant, it appears at certain time during the day check if it matches with user traffic spikes or with times when we run automatic processes that stress the db like a data ingestion. If the DB instances are struggling at those moments consider to scale them up, split the work in lighter chunks or schedule stress processes during low traffic volume hours.
 	- If showing slightly outdated data is not an issue we can consider to add an in-memory cache layer like `redis` taking care of setting a TTL that makes sense for each case. This should reduce the number of times the app needs to query the db drastically.
 ---
  #### Symptom: Pages related with one specific resource (example: products) feel slow to load.
- All the site feels fluent but when accessing a product page there's a noticeable performance downgrade.
+ All the site feels fluent but when accessing a product page there's a noticeable performance downgrade. We discover the three pages the client shared have something in common, they show available stock for products.
  - **Possible cause: Service used by the backend causing a delay** 
-	 - In this example we mentioned pages related to products, where usually we'd have service in charge of stock and order management. If the mentioned service is slow to respond we could translate that extra time to the final user.
+	 - In this example we mentioned pages related to products, where usually we'd have service in charge of stock and order management. If the mentioned service is slow to respond we could be translating that extra time to the final user experience.
  - **How do we confirm:**
 	 - Tools like `New Relic` or `Sentry` can give us insights about third party services response times and detect degradations. If they are not available we could try a more laborous in-house solution by logging a timestamp before and after the call to the service, including a transaction id to be able to identify and measure each transaction separately.
  - **How do we fix it:**
@@ -87,7 +87,7 @@ In the browser's network tab we can see how some XHR requests with data needed t
 
 ---
 #### Symptom: The app takes long to have some meaningful content in the screen (poor first contentful paint time)
- -  **Possible cause: SPA rendering html by javascript in the browser:** This example suggests the client only highlighted 3 pages where the slowliness was noticeable. This issue affects the system as a whole but it could be the case some pages are more affected than others because of the nature of their content. When we do client side rendering, JS chunks are being delivered to the browser on page load among with an almost empty html file where these JS chunks get imported. All the html page content is being generated by the browser when js execution phase begins. This generates unnecessary delays and loading spinners being shown (In the best cases). Backend is also impacted receiving more traffic in the form of XHR requests to fill the page content usually for each page section. This could be solved by server side rendering the whole page and returning just one meaningful document with the content that we'd like to show immediately.
+ -  **Possible cause: SPA rendering html by javascript in the browser:** This example suggests the client only highlighted 3 pages where the slowness was noticeable. This issue affects the system as a whole but it could be the case some pages are more affected than others because of the nature of their content. When we do client side rendering, JS chunks are being delivered to the browser on page load among with an almost empty html file where these JS chunks get imported. All the html page content is being generated by the browser when js execution phase begins. This generates unnecessary delays and loading spinners being shown (In the best cases). Backend is also impacted receiving more traffic in the form of XHR requests to fill the page content usually for each page section. This could be solved by server side rendering the whole page and returning just one meaningful document with the content that we'd like to show immediately.
  - **How do we confirm:**
 	 - Look at the initial request in the browser's network tab. Check the body of that request. Does it contain the actual page content in there? If it just contains a blank div with a class and a bunch of scripts you're fully rendering in client side which is slow, impractical and affects in a heavier way to clients with less resources available like phones and tablets.
  - **How do we fix the issue:** Unfortunately there is not an easy way to solve it as it goes very deep in how the system has been thought from the beginning. This scenario is usually being found in apps developed in the first react/angular years when SPAs where fashion. To properly fix this a migration to a server side render technology is required. (Something like `Nextjs`). In a perfect world we should be able to reuse the components we already have working but now we should be able to render in server.
