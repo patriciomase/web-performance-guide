@@ -28,7 +28,7 @@ A client has complained that their site is too slow. In particular, they have id
 ---
 
 #### Symptom: Page remains blank or showing minimal content for a noticeable time, pages take time to be interactive. The 3 pages the client shared have something in common: they use a third party script to do translations in FE side.
-- **Possible cause: Blocking scripts.** Some third-party scripts (it could be analytics, ads, third party services) are blocking the browser's main thread before the actual content even shows up. The browser is stuck waiting while these scripts load, which generates unnecessary delays.
+- **Possible cause: Blocking scripts.** Some third-party script (it could be analytics, ads, third party services, in this case would be live translations) are blocking the browser's main thread before the actual content even shows up. The browser is stuck waiting while these scripts load, which generates unnecessary delays.
 - **How do we confirm:** 
 	- Take a look at the html code returned in the first request in the network tab. Look for `<script/>` tags not including the `defer`  or `async` attribute. 
 	- Go to the network tab and take a look to the trace. 
@@ -37,6 +37,8 @@ A client has complained that their site is too slow. In particular, they have id
 	- Add `defer` or `async` to the script tag in the html.
 	- Consider loading the script dynamically (Inject the `<script` tag with js) when it is needed.
    	- Consider using a third party service to load scripts like GA (Google Analytics).
+
+Additionally check those changes do not affect the user experience in another way. For example, translation scripts are designed to load at the very beginning of the page load process, so they can parse the html and apply the translations to the DOM in the client. Deferring could cause the user to see a flash of untranslated texts that suddendly change to the desired language.
 
 ---
 
