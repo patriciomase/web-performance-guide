@@ -16,12 +16,12 @@ A client has complained that their site is too slow. In particular, they have id
  After taking a look to the affected pages the following issues have been observed:
  
  #### Symptom: Images take too long to show up.  
- - **Possible cause: Served assets size.** Images (and could be videos, fonts, etc.). They  are simply too big. This issue likely occurs when non-technical users upload content to cms platforms or other ways to inject content. The browser scales down the image to show it in the right size defined by design, but the file transfer takes extra time which impacts the user experience.
+ - **Possible cause: Served assets size.** Images (and could be videos, fonts, etc.). They  are simply too big. This issue likely occurs when non-technical users upload content to cms platforms or other ways to inject content in automated ways. The browser scales down the image to show it in the right size defined by design, but the file transfer takes extra time which impacts the user experience.
  - **How to confirm the issue:** Inspect the elements in the browser. Compare the rendered size vs the original size. Loot at the element in the network tab, take a look at the file weight.
  - **Ways to fix:**
 	 - manually reduce the size of the assets (ugh).
-	 - Resize uploaded content in the backend before storing it. (Or make a copy with the right dimensions keeping the original one) This do not fix for existent content but will fix the issue for future elements. We could run a script to execute the same process for the historical data we already have.
-	 - Another alternative approach would be to resize at request time. Use query params to query for an specific size. We'd need to have a service in place to do the transformation, cache the resized asset and return. Third party services like cloudinary work in this way so maybe if applying this solution is more about paying and integrating a third party service.
+	 - Resize uploaded content in the backend before storing it. (Or make a copy with the right dimensions keeping the original one) This do not fix for existent content but will fix the issue for future elements. We could run a script to execute the same process for the historical data we already have. We can also consider to create several sizes at this stage so we can cover different devices in a better way and also have other sizes available like for example for thumbnails.
+	 - Another alternative approach would be to resize at request time. Use query params to query for an specific size. We'd need to have a service in place to do the transformation on the fly, cache the resized asset and return. Third party services like cloudinary and could be a relatively easy workaround.
  - **Additional improvements:**
 	 - Check the file format (mostly for images). Try to use webp.
 
@@ -36,6 +36,19 @@ A client has complained that their site is too slow. In particular, they have id
 - **How to fix:**
 	- Add `defer` or `async` to the script tag in the html.
 	- Consider loading the script dynamically (Inject the `<script` tag with js) when it is needed.
+
+---
+
+#### Symptom: Page feels slow and unresponsive
+- **Possible cause: Rendering issues, unnecessary processing.** If the page feels unresponsive after loading or after executing certain actions it could be the case we entered in a rerender loop. Another good indicator of this could be elements slightly flashing in the webpage.
+- **How do we confirm**
+	- Use the React Profiler (if using React) to identify components that are re-rendering too often.
+    	- Check if effects or event listeners are firing frequently when they don’t need to.
+     	- Reproduce the issue locally and add logs trying to identify the place where the unwanted rerenders are fired.
+- **How to fix**:
+    	- Optimize component rendering by using memoization, look what effects are being chained and break the loop.
+    	- debounce expensive tasks so they run less often. (Things like executing events when mouse moves or keyboard typing)
+    	- Remove or refactor unnecessary effects and ensure that data-fetching or resource-intensive tasks happen only when needed.
 
 ---
 
