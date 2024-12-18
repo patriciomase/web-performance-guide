@@ -27,12 +27,12 @@ A client has complained that their site is too slow. In particular, they have id
 
 ---
 
-#### Symptom: Page remains blank or showing minimal content for a noticeable time
-- **Possible cause: Blocking scripts.** Some third-party scripts (it could be analytics or ads) are blocking the browser's main thread before the actual content even shows up. The browser is stuck waiting while these scripts load, which generates unnecessary delays.
+#### Symptom: Page remains blank or showing minimal content for a noticeable time, pages take time to be interactive. The 3 pages the client shared have something in common: they use a third party script to do translations in FE side.
+- **Possible cause: Blocking scripts.** Some third-party scripts (it could be analytics, ads, third party services) are blocking the browser's main thread before the actual content even shows up. The browser is stuck waiting while these scripts load, which generates unnecessary delays.
 - **How do we confirm:** 
-	- Take a look at the code. Look for `<script/>` tags not including the `defer`  or `async` attribute. 
+	- Take a look at the html code returned in the first request in the network tab. Look for `<script/>` tags not including the `defer`  or `async` attribute. 
 	- Go to the network tab and take a look to the trace. 
-	- Run lighthouse and take a look to the diagnostics.
+	- Run lighthouse and take a look to the diagnostics, look for recommendations about blocking scripts.
 - **How to fix:**
 	- Add `defer` or `async` to the script tag in the html.
 	- Consider loading the script dynamically (Inject the `<script` tag with js) when it is needed.
