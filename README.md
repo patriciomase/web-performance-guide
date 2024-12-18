@@ -1,5 +1,5 @@
 # Caching/Performance challenge
-A guide to detect and fix performance issues in your web application, by **Patricio Maseda**, this document is based on insights gathered from years of experiencing and investigating issues in productive apps. I’ll highlight common issues and share the strategies and tools that have consistently helped me to level up application performance.
+A guide to detect and fix performance issues in your web application, by **Patricio Maseda**, this document is based on insights gathered from years of experiencing and investigating issues in productive apps. I’ll highlight common issues and share the strategies and tools that have consistently helped me to level up application performance. We'll assume an hypothetical client is experiencing degraded performance and sumarize what would be the key points to identify what's happening and what actions could we take to fix/mitigate.
 
 ## Hypothetical scenario:
 
@@ -53,7 +53,7 @@ A client has complained that their site is too slow. In particular, they have id
 
 ---
 
-## Hypothetical case 2: Issues are in the backend side:
+## Hypothetical case 2: Issues are in the backend side, lets fix there:
 #### Symptom: The whole page or a block of content is noticeable slow to load or after sending a form with data it takes long time to show some response to the user.
 In the browser's network tab we can see how some XHR requests with data needed to draw the page content are taking more than expected. 
 - **Possible cause: database query underperforming** Too many joins, too much historical data, lack of indexes or db instances struggling to write and read at the same time could be the most common causes.
