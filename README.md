@@ -44,12 +44,12 @@ A client has complained that their site is too slow. In particular, they have id
 - **Possible cause: Rendering issues, unnecessary processing.** If the page feels unresponsive after loading or after executing certain actions it could be the case we entered in a rerender loop. Another good indicator of this could be elements slightly flashing in the webpage.
 - **How do we confirm**
 	- Use the React Profiler (if using React) to identify components that are re-rendering too often.
-    	- Check if effects or event listeners are firing frequently when they don’t need to.
-     	- Reproduce the issue locally and add logs trying to identify the place where the unwanted rerenders are fired.
-- **How to fix**:
-    	- Optimize component rendering by using memoization, look what effects are being chained and break the loop.
-    	- debounce expensive tasks so they run less often. (Things like executing events when mouse moves or keyboard typing)
-    	- Remove or refactor unnecessary effects and ensure that data-fetching or resource-intensive tasks happen only when needed.
+	- Check if effects or event listeners are firing frequently when they don’t need to.
+	- Reproduce the issue locally and add logs trying to identify the place where the unwanted rerenders are fired.
+- **How to fix:**
+	- Optimize component rendering by using memoization, look what effects are being chained and break the loop.
+	- debounce expensive tasks so they run less often. (Things like executing events when mouse moves or keyboard typing)
+	- Remove or refactor unnecessary effects and ensure that data-fetching or resource-intensive tasks happen only when needed.
 
 ---
 
