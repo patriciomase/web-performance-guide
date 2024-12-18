@@ -16,7 +16,7 @@ A client has complained that their site is too slow. In particular, they have id
  After taking a look to the affected pages the following issues have been observed:
  
  #### Symptom: Images take too long to show up. The three pages shared by the client have something in common, they use a hero image component.
- - **Possible cause: Served assets size.** Images (and could be videos, fonts, etc.). They  are simply too big. This issue likely occurs when non-technical users upload content to cms platforms or other ways to inject content in automated ways. The browser scales down the image to show it in the right size defined by design, but the file transfer takes extra time which impacts the user experience.
+ - **Possible cause: Served assets size.** Images (and could be videos, fonts, etc.) are simply too big. This issue usually occurs when non-technical users upload content to cms platforms (or other ways to inject content in automated ways) without facing a validation for image/video weight. At the point of showing the asset the browser scales down the image to show it in the right size defined by design, but the file is usually much bigger causing the transfer to take extra time which impacts the user experience.
  - **How to confirm the issue:** Inspect the elements in the browser. Compare the rendered size vs the original size. Loot at the element in the network tab, take a look at the file weight.
  - **Ways to fix:**
 	 - manually reduce the size of the assets (ugh).
