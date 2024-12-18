@@ -62,7 +62,7 @@ In the browser's network tab we can see how some XHR requests with data needed t
 ---
 
 ### Hypothetical case 3: Issues that affect both frontend and backend:
-#### Symptom: All page assets seem to be slow to load. 
+#### Symptom: All page assets seem to be slow to load. The issue is more noticeable when accessing the page from far away locations.
  -  **Possible cause: Lack of caching and CDN usage:** Assets like JS, CSS, and fonts are being delivered without any proper caching or CDN. This issue likely occurs because no caching rules were set or no CDN is present at all, the browser is downloading assets from server on every visit which increases load times and puts extra stress on the server. No cloud storage being used to store assets on each build.
  - **How do we confirm:**
 	 - No cache header is present in responses.
